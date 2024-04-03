@@ -138,6 +138,10 @@
   #include "../usermods/usermod_v2_word_clock/usermod_v2_word_clock.h"
 #endif
 
+#ifdef USERMOD_WORDCLOCK_NL
+  #include "../usermods/usermod_v2_word_clock_nl/usermod_v2_word_clock_nl.h"
+#endif
+
 #ifdef USERMOD_MY9291
   #include "../usermods/MY9291/usermode_MY9291.h"
 #endif
@@ -369,6 +373,10 @@ void registerUsermods()
 
   #ifdef USERMOD_WORDCLOCK
   UsermodManager::add(new WordClockUsermod());
+  #endif
+
+  #ifdef USERMOD_WORDCLOCK_NL
+  usermods.add(new WordClockUsermodNl());
   #endif
 
   #ifdef USERMOD_MY9291
