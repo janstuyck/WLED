@@ -10,7 +10,6 @@
  * There are 2 parameters to change the behaviour:
  *
  * active: enable/disable usermod
- * diplayItIs: enable/disable display of "Het is" on the clock.
  */
 
 class WordClockUsermodNl : public Usermod
@@ -21,8 +20,6 @@ private:
 
   // set your config variables to their boot default value (this can also be done in readFromConfig() or a constructor if you prefer)
   bool usermodActive = true;
-  bool displayItIs = true;
-  int ledOffset = 0;
 
 // defines for mask sizes
 #define maskSizeLeds 156
@@ -134,17 +131,14 @@ private:
   // update the display
   void updateDisplay(uint8_t hours, uint8_t minutes)
   {
-    // disable complete matrix at the bigging
+    // disable complete matrix at the beginning
     for (int x = 0; x < maskSizeLeds; x++)
     {
       maskLedsOn[x] = 0;
     }
 
-    // display it is/es ist if activated
-    if (displayItIs)
-    {
-      updateLedMask(maskItIs, maskSizeItIs);
-    }
+    // display it is/het is
+    updateLedMask(maskItIs, maskSizeItIs);
 
     // set single minute dots
     setSingleMinuteDots(minutes);
@@ -279,15 +273,8 @@ public:
    */
   void addToConfig(JsonObject &root)
   {
-    JsonObject top = root.createNestedObject(F("WordClockUsermod"));
+    JsonObject top = root.createNestedObject(F("WordClockUsermodNl"));
     top[F("active")] = usermodActive;
-    top[F("displayItIs")] = displayItIs;
-    top[F("ledOffset")] = ledOffset;
-  }
-
-  void appendConfigData()
-  {
-    oappend(SET_F("addInfo('WordClockUsermod:ledOffset', 1, 'Number of LEDs before the letters');"));
   }
 
   /*
@@ -310,13 +297,11 @@ public:
     // default settings values could be set here (or below using the 3-argument getJsonValue()) instead of in the class definition or constructor
     // setting them inside readFromConfig() is slightly more robust, handling the rare but plausible use case of single value being missing after boot (e.g. if the cfg.json was manually edited and a value was removed)
 
-    JsonObject top = root[F("WordClockUsermod")];
+    JsonObject top = root[F("WordClockUsermodNl")];
 
     bool configComplete = !top.isNull();
 
     configComplete &= getJsonValue(top[F("active")], usermodActive);
-    configComplete &= getJsonValue(top[F("displayItIs")], displayItIs);
-    configComplete &= getJsonValue(top[F("ledOffset")], ledOffset);
 
     return configComplete;
   }
@@ -350,7 +335,7 @@ public:
    */
   uint16_t getId()
   {
-    return USERMOD_ID_WORDCLOCK;
+    return USERMOD_ID_UNSPECIFIED;
   }
 
   // More methods can be added in the future, this example will then be extended.
