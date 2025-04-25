@@ -7,7 +7,7 @@
  * See: https://github.com/Aircoookie/WLED/wiki/Add-own-functionality
  *
  * This usermod can be used to drive a wordclock with a 11x10 pixel matrix with WLED. There are also 4 additional dots for the minutes.
- * There are 2 parameters to change the behaviour:
+ * There is only 1 parameter for this:
  *
  * active: enable/disable usermod
  */
